@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Item,
   Segment,
@@ -45,7 +46,9 @@ const EventListItem = ({ event, setOpenEditEvent, onDeleteEvent }) => {
           color='teal'
           floated='right'
           content='View'
-          onClick={() => setOpenEditEvent(event)}
+          as={Link}
+          to={`/events/${event.id}`}
+          // onClick={() => setOpenEditEvent(event)}
         />
         <Button
           color='red'
