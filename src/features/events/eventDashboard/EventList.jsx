@@ -1,11 +1,16 @@
 import React from "react";
 import EventListItem from "./EventListItem";
 
-const EventList = (props) => {
+const EventList = ({ setOpenEditEvent, events, onDeleteEvent }) => {
   return (
     <>
-      {props.events.map((event) => (
-        <EventListItem {...event} key={event.id} />
+      {events.map((event) => (
+        <EventListItem
+          onDeleteEvent={onDeleteEvent}
+          event={event}
+          key={event.id}
+          setOpenEditEvent={setOpenEditEvent}
+        />
       ))}
     </>
   );

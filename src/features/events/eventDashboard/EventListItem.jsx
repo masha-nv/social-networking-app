@@ -12,44 +12,47 @@ import {
 } from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 
-const EventListItem = ({
-  hostPhotoURL,
-  attendees,
-  title,
-  date,
-  venue,
-  description,
-  hostedBy,
-}) => {
+const EventListItem = ({ event, setOpenEditEvent, onDeleteEvent }) => {
   return (
     <Segment.Group>
       <Segment>
         <Item.Group>
           <Item>
-            <ItemImage size='tiny' circular src={hostPhotoURL} />
+            <ItemImage size='tiny' circular src={event.hostPhotoURL} />
             <ItemContent>
-              <ItemHeader content={title} />
-              <ItemDescription>Hosted by {hostedBy}</ItemDescription>
+              <ItemHeader content={event.title} />
+              <ItemDescription>Hosted by {event.hostedBy}</ItemDescription>
             </ItemContent>
           </Item>
         </Item.Group>
       </Segment>
       <Segment>
         <span>
-          <Icon name='clock' /> {date}
-          <Icon name='marker' /> {venue}
+          <Icon name='clock' /> {event.date}
+          <Icon name='marker' /> {event.venue} {event.city}
         </span>
       </Segment>
       <Segment secondary>
         <List horizontal>
-          {attendees.map((attendee) => (
+          {event.attendees.map((attendee) => (
             <EventListAttendee {...attendee} key={attendee.id} />
           ))}
         </List>
       </Segment>
       <Segment clearing>
-        <div>{description}</div>
-        <Button color='teal' floated='right' content='View' />
+        <div>{event.description}</div>
+        <Button
+          color='teal'
+          floated='right'
+          content='View'
+          onClick={() => setOpenEditEvent(event)}
+        />
+        <Button
+          color='red'
+          floated='right'
+          content='Delete'
+          onClick={() => onDeleteEvent(event.id)}
+        />
       </Segment>
     </Segment.Group>
   );
