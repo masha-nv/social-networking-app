@@ -19,18 +19,10 @@ const NavBar = ({ setFormOpen, setOpenEditEvent }) => {
         </Menu.Item>
 
         <Menu.Item as={NavLink} to='/events' content='Events' />
+        <Menu.Item as={NavLink} to='/sandbox' content='Sandbox' />
         {isAuthenticated && (
           <Menu.Item>
-            <Button
-              as={NavLink}
-              to='/create'
-              // onClick={() => {
-              //   setOpenEditEvent(null);
-              //   setFormOpen(true);
-              // }}
-              content='Create Event'
-              positive
-            />
+            <Button as={NavLink} to='/create' content='Create Event' positive />
           </Menu.Item>
         )}
         {isAuthenticated ? (

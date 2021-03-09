@@ -6,15 +6,9 @@ import NavBar from "../../features/nav/NavBar";
 import HomePage from "../../features/home/HomePage";
 import EventDetails from "../../features/events/eventDetails/eventDetails";
 import EventForm from "../../EventForm/EventForm";
+import Sandbox from "../../features/Sandbox/Sandbox";
 
 function App() {
-  // const [formOpen, setFormOpen] = useState(false);
-  // const [selectedEvent, setOpenEditEvent] = useState(null);
-
-  // function handleOpenEditEvent(event) {
-  //   setOpenEditEvent(event)
-  //   setFormOpen(true);
-  // }
   return (
     <>
       <Route exact path='/' component={HomePage} />
@@ -22,28 +16,20 @@ function App() {
         path={"/(.+)"}
         render={() => (
           <>
-            <NavBar
-            // setFormOpen={setFormOpen}
-            // setOpenEditEvent={setOpenEditEvent}
-            />
+            <NavBar />
             <Container className='main'>
               <Switch>
                 <Route
                   path={["/create", "/manage/:id"]}
-                  component={EventForm}
+                  render={(routeProps) => (
+                    <EventForm key={routeProps.location.key} {...routeProps} />
+                  )}
                 />
                 <Route path='/events/:id' component={EventDetails} />
+                <Route path='/sandbox' component={Sandbox} />
                 <Route
                   path='/events'
-                  render={(routeProps) => (
-                    <EventDashboard
-                      // selectedEvent={selectedEvent}
-                      // formOpen={formOpen}
-                      // setFormOpen={setFormOpen}
-                      // setOpenEditEvent={handleOpenEditEvent}
-                      {...routeProps}
-                    />
-                  )}
+                  render={(routeProps) => <EventDashboard {...routeProps} />}
                 />
               </Switch>
             </Container>

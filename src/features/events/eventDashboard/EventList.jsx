@@ -1,16 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import EventListItem from "./EventListItem";
 
-const EventList = ({ setOpenEditEvent, events, onDeleteEvent }) => {
+const EventList = () => {
+  const { events } = useSelector((state) => state.event);
   return (
     <>
       {events.map((event) => (
-        <EventListItem
-          onDeleteEvent={onDeleteEvent}
-          event={event}
-          key={event.id}
-          setOpenEditEvent={setOpenEditEvent}
-        />
+        <EventListItem event={event} key={event.id} />
       ))}
     </>
   );
