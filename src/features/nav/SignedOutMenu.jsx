@@ -1,12 +1,15 @@
 import React from "react";
 import { Button, Menu } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { openModal } from "../../app/common/modal/modalReducer";
 
-const SignedOutMenu = ({ setIsAuthenticated }) => {
+const SignedOutMenu = () => {
+  const dispatch = useDispatch();
   return (
     <Menu.Item position='right'>
       <Button
-        onClick={() => setIsAuthenticated(true)}
+        onClick={() => dispatch(openModal({ modalType: "LoginForm" }))}
         basic
         inverted
         content='Login'

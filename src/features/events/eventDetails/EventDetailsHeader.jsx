@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Segment, Image, Item, Button, Header } from "semantic-ui-react";
-
+import { images } from "../../../api/categoryImages.js";
+import { format } from "date-fns";
 const EventDetailsHeader = ({ selectedEvent }) => {
   const eventImageStyle = {
     filter: "brightness(60%)",
@@ -20,7 +21,7 @@ const EventDetailsHeader = ({ selectedEvent }) => {
       <Segment basic style={{ padding: "0" }}>
         <Image
           style={eventImageStyle}
-          src='https://images.unsplash.com/photo-1582106245687-cbb466a9f07f?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8ZHJpbmtzfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60'
+          src={images[selectedEvent.category]}
           fluid
         />
 
@@ -33,7 +34,7 @@ const EventDetailsHeader = ({ selectedEvent }) => {
                   content={selectedEvent.title}
                   style={{ color: "white" }}
                 />
-                <p>{selectedEvent.date}</p>
+                <p>{format(selectedEvent.date, "MMMM, d yyyy h:mm a")}</p>
                 <p>
                   Hosted by <strong>{selectedEvent.hostedBy}</strong>
                 </p>

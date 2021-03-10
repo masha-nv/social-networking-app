@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Form, FormField, Segment, Header } from "semantic-ui-react";
+import { Button, Segment, Header } from "semantic-ui-react";
 import { updateEvent, addEvent } from "../app/actions/eventsActionCreators";
+import { Formik, Form } from "formik";
+import * as yup from "yup";
+import MyTextField from "../app/common/form/myTextField";
+import MyTextArea from "../app/common/form/myTextArea";
+import MySelectField from "../app/common/form/mySelectField";
+import { categoryData } from "../api/categoryOptions";
+import MyDateField from "../app/common/form/myDateField";
 
 const EventForm = ({ location, history }) => {
   const dispatch = useDispatch();
@@ -16,83 +23,78 @@ const EventForm = ({ location, history }) => {
     date: "",
   };
 
-  const [values, setValues] = useState(initialValues);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    selectedEvent ? dispatch(updateEvent(values)) : dispatch(addEvent(values));
-    history.push("/events");
-  };
-  const handleChange = ({ target }) => {
-    setValues({ ...values, [target.name]: target.value });
-  };
-  const { title, category, description, city, venue, date } = values;
+  const formSchema = yup.object({
+    title: yup.string().required("You must provide a title"),
+    category: yup.string().required("Please provide category"),
+    description: yup.string().required(),
+    city: yup.string().required(),
+    venue: yup.string().required(),
+    date: yup.date().default(function () {
+      return new Date();
+    }),
+  });
+
   return (
     <Segment clearing>
-      <Header content={selectedEvent ? "Edit Event" : "Create new Event"} />
-      <Form onSubmit={handleSubmit}>
-        <FormField>
-          <input
-            type='text'
-            placeholder='Title'
-            value={title}
-            name='title'
-            onChange={handleChange}
-          />
-        </FormField>
-        <FormField>
-          <input
-            type='text'
-            placeholder='Category'
-            value={category}
-            name='category'
-            onChange={handleChange}
-          />
-        </FormField>
-        <FormField>
-          <input
-            type='text'
-            placeholder='Description'
-            value={description}
-            name='description'
-            onChange={handleChange}
-          />
-        </FormField>
-        <FormField>
-          <input
-            type='text'
-            placeholder='City'
-            name='city'
-            value={city}
-            onChange={handleChange}
-          />
-        </FormField>
-        <FormField>
-          <input
-            type='text'
-            placeholder='Venue'
-            name='venue'
-            value={venue}
-            onChange={handleChange}
-          />
-        </FormField>
-        <FormField>
-          <input
-            type='date'
-            placeholder='Date'
-            name='date'
-            value={date}
-            onChange={handleChange}
-          />
-        </FormField>
-        <Button content='Submit' type='submit' floated='right' positive />
-        <Button
-          as={Link}
-          to='/events'
-          content='Cancel'
-          type='submit'
-          floated='right'
-        />
-      </Form>
+      <Formik
+        validationSchema={formSchema}
+        initialValues={initialValues}
+        onSubmit={(values) => {
+          selectedEvent
+            ? dispatch(updateEvent(values))
+            : dispatch(addEvent(values));
+          history.push("/events");
+        }}
+      >
+        {(props) => {
+          const { dirty, isSubmitting, isValid } = props;
+          console.log(props);
+
+          return (
+            <Form className='ui form'>
+              <Header sub color='teal' content='Event Details' />
+              <MyTextField placeholder='Event Title' name='title' />
+              <MySelectField
+                placeholder='Category'
+                name='category'
+                options={categoryData}
+              />
+              <MyTextArea
+                placeholder='Description'
+                name='description'
+                rows='3'
+              />
+              <Header sub color='teal' content='Event Location Details' />
+              <MyTextField placeholder='City' name='city' />
+              <MyTextField placeholder='Venue' name='venue' />
+              <MyDateField
+                timeFormat='HH:mm'
+                showTimeSelect
+                timeCaption='time'
+                dateFormat='MMMM d, yyyy h:mm a'
+                placeholderText='Date'
+                name='date'
+              />
+              <Button
+                loading={isSubmitting}
+                content='Submit'
+                type='submit'
+                floated='right'
+                positive
+                disabled={!dirty || !isValid || isSubmitting}
+              />
+              <Button
+                disabled={isSubmitting}
+                as={Link}
+                to='/events'
+                content='Cancel'
+                type='submit'
+                floated='right'
+              />
+            </Form>
+          );
+        }}
+      </Formik>
     </Segment>
   );
 };

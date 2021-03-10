@@ -29,3 +29,7 @@ body {
 .musthead h1 {
   font-size: 3em !important;
 }
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
