@@ -1,11 +1,11 @@
-import { sampleData } from "../../api/sampleData";
 import {
   CREATE_EVENT,
   DELETE_EVENT,
+  FETCH_EVENTS,
   UPDATE_EVENT,
 } from "../actions/actionTypes";
 
-const initialState = { events: sampleData };
+const initialState = { events: [] };
 
 export function eventReducer(state = initialState, action) {
   switch (action.type) {
@@ -25,6 +25,11 @@ export function eventReducer(state = initialState, action) {
         events: state.events.map((evt) =>
           evt.id === action.event.id ? action.event : evt
         ),
+      };
+    case FETCH_EVENTS:
+      return {
+        ...state,
+        events: action.payload,
       };
     default:
       return state;

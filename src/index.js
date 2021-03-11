@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "semantic-ui-css/semantic.min.css";
+import "react-toastify/dist/ReactToastify.min.css";
+import "react-calendar/dist/Calendar.css";
 import "./app/layout/styles.css";
 import App from "./app/layout/App";
 import reportWebVitals from "./reportWebVitals";
@@ -8,8 +10,10 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { confgureStore } from "./app/store/configureStore";
 import ScrollToTop from "./utils/ScrollToTop";
+import { asyncFetchEvents } from "./app/actions/eventsActionCreators";
 
 const store = confgureStore();
+store.dispatch(asyncFetchEvents());
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

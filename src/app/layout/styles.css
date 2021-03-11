@@ -33,3 +33,10 @@ body {
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+div.six.wide.column > div {
+  width: 100%;
+}
+.react-calendar {
+  border: none;
+}

@@ -8,11 +8,17 @@ import EventDetails from "../../features/events/eventDetails/eventDetails";
 import EventForm from "../../EventForm/EventForm";
 import Sandbox from "../../features/Sandbox/Sandbox";
 import ModalManager from "../common/modal/ModalManager";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
       <ModalManager />
+      <ToastContainer
+        position='bottom-right'
+        hideProgressBar
+        autoClose={5000}
+      />
       <Route exact path='/' component={HomePage} />
       <Route
         path={"/(.+)"}

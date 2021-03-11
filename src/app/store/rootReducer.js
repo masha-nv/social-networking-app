@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { authReducer } from "../../features/auth/authReducer";
 import { testReducer } from "../../features/Sandbox/testReducer";
+import { ayncReducer } from "../async/asyncReducer";
 import { modalReducer } from "../common/modal/modalReducer";
 import { eventReducer } from "../reducers/eventReducer";
 
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
   event: eventReducer,
   modal: modalReducer,
   auth: authReducer,
+  async: ayncReducer,
 });
 
 export default rootReducer;
